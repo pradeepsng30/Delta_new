@@ -31,7 +31,7 @@ public class MainActivity extends ActionBarActivity {
 	//prev=now=temp=elapsed=new Time();
 	Boolean clicked_first=true,pause_clicked=false;
 	TextView time,list;
-	Thread thread=new Thread(new Runnable() {
+	/*Thread thread=new Thread(new Runnable() {
         public void run() {
         	
         	//thread.setPriority(android.os.Process.THREAD_PRIORITY_URGENT_DISPLAY);
@@ -70,7 +70,7 @@ public class MainActivity extends ActionBarActivity {
 		}}
         	//return;
         	}}
-        	});
+        	});*/
 	//Date date;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
