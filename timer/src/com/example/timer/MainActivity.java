@@ -24,13 +24,14 @@ public class MainActivity extends ActionBarActivity {
 
 	//Time elapsed=new Time();
 	long prev,start,end,elapsed;
-	Long HH,MM,SS;
+	int interval=30;
+	Long HH,MM,SS,CS;
 	//Date date1;
 	//Timer t;
 	
 	//prev=now=temp=elapsed=new Time();
 	Boolean clicked_first=true,pause_clicked=false;
-	TextView time,list;
+	TextView time,list,caption;
 	/*Thread thread=new Thread(new Runnable() {
         public void run() {
         	
@@ -127,6 +128,8 @@ public class MainActivity extends ActionBarActivity {
 			time.setText("00 : 00 : 00");
 			list=(TextView)findViewById(R.id.editText2);
 			list.setText("");
+			caption=(TextView)findViewById(R.id.textView1);
+			caption.setText("  MM         :       SS       :         CS");
 			clicked_first=false;
 			pause_clicked=true;
 			//prev=new Time();
@@ -150,13 +153,15 @@ public class MainActivity extends ActionBarActivity {
 	        		try{
 	           if(!pause_clicked){
 	           time.post(new Runnable() {
-	               public void run() {String hr = "",min = "",sec = "";
+	               public void run() {String hr = "",min = "",sec = "",centisec="";
 	            	   end=System.currentTimeMillis();
 	            	      //  	time.invalidate();
 	            	           elapsed=prev+end-start;
-	            	   elapsed/=1000;
-	            	   SS=elapsed%60;
-	            	   MM=elapsed/60;
+	            	   CS=elapsed%1000;
+	            	   CS/=10;
+	            	   //elapsed/=1000;
+	            	   SS=(elapsed/1000)%60;
+	            	   MM=(elapsed/1000)/60;
 	            	   HH=MM/60;
 	            	   MM=MM%60;
 	            	   if(SS<10)sec="0";
@@ -165,10 +170,15 @@ public class MainActivity extends ActionBarActivity {
 	            	   sec=sec+Long.toString(SS);
 	            	   min=min+Long.toString(MM);
 	            	   hr=hr+Long.toString(HH);
+	            	   centisec=centisec+Long.toString(CS);
 	            	   
 	            	   
 	            	   if(!pause_clicked)
-	            	   time.setText(hr+" : "+min+" : "+sec);
+	            		   if(HH<1)
+	            			   {caption.setText("  MM         :       SS       :         CS");
+	            			   time.setText(min+" : "+sec+" : "+centisec);}
+	            		   else {caption.setText("  HH         :       MM       :         SS");
+	            			   interval=1000;time.setText(hr+" : "+min+" : "+sec);}
 	            	   
 	            	   //time.setText("%c%c:%c:%c%c",elapsed.toString().charAt(index));
 	           
@@ -178,7 +188,7 @@ public class MainActivity extends ActionBarActivity {
 	           );}
 	           
 	           
-	   				Thread.sleep(1000);	    	
+	   				Thread.sleep(interval);	    	
 	        	
 	        }catch(InterruptedException consumed){  consumed.printStackTrace();}
 	        	//return;
@@ -198,7 +208,7 @@ public class MainActivity extends ActionBarActivity {
 		try{
 	//		thread.interrupt();
 	}catch(Exception e){e.printStackTrace();}
-	prev=elapsed*1000;
+	prev=elapsed;
 	try {
 		Thread.sleep(100);
 	} catch (InterruptedException e) {
